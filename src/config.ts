@@ -1,7 +1,8 @@
 import { CommentAuthorAssociation } from './github-models'
 import { Context } from 'probot'
 import getConfig from 'probot-config'
-import { Decoder, object, string, optional, number, boolean, array, oneOf, constant } from '@mojotech/json-type-validation'
+import { Decoder, object, string, optional, number, boolean, array, oneOf, constant, DecoderError } from '@mojotech/json-type-validation'
+import { Err } from '@mojotech/json-type-validation/dist/types/result'
 
 class ConfigNotFoundError extends Error {
   constructor (
@@ -111,7 +112,7 @@ export function getConfigFromUserConfig (userConfig: any): Config {
   }
   const decoded = configDecoder.run(config)
   if (!decoded.ok) {
-    throw new ConfigValidationError(decoded.error, config)
+    throw new ConfigValidationError((decoded as Err<DecoderError>).error, config)
   }
   return decoded.result
 }
