@@ -12,7 +12,7 @@
     "github",
     "probot-app"
   ],
-  "main": "src/index.ts",
+  "main": "lib/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "build:watch": "tsc -p tsconfig.json --watch",
@@ -30,7 +30,8 @@
     "schema:download": "apollo service:download --endpoint https://api.github.com/graphql --header \"Authorization: bearer $GITHUB_TOKEN\" --header \"Accept: application/vnd.github.antiope-preview, application/vnd.github.merge-info-preview+json\"",
     "schema:codegen": "apollo client:codegen --target typescript --config=apollo.config.js --outputFlat src/query.graphql.ts",
     "schema:update": "npm run schema:download && npm run schema:codegen",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "@mojotech/json-type-validation": "^3.1.0",
